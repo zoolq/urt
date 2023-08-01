@@ -1,0 +1,28 @@
+[package]
+name = "urt"
+version = "0.1.0"
+authors = ["Felix"]
+edition = "2021"
+
+license = "MIT"
+description = "ErrorOption is an enum combining Option and Error into one"
+
+keywords = ["data-structure", "no_std"]
+categories = ["data-structures", "no-std"]
+
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[features]
+std = []
+serde = ["dep:serde"]
+
+[dependencies]
+serde = { version = "1.0", optional = true, features = ["derive"] }
+
+[package.metadata.release]
+no-dev-version = true
+tag-name = "{{version}}"
+
+[dev-dependencies]
+serde_json = "1.0"

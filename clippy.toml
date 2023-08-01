@@ -1,0 +1,3 @@
+disallowed-methods = [
+    "self::double::Double::unwrap_union",
+]
