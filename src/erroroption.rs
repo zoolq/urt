@@ -372,9 +372,9 @@ impl<T, E> ErrorOption<T, E> {
     #[inline]
     pub const fn as_ref(&self) -> ErrorOption<&T, &E> {
         match self {
-            Value(ref value) => ErrorOption::Value(value),
-            Empty => ErrorOption::Empty,
-            Error(ref error) => ErrorOption::Error(error)
+            Value(ref value) => Value(value),
+            Empty => Empty,
+            Error(ref error) => Error(error)
         }
     }
 
@@ -399,9 +399,9 @@ impl<T, E> ErrorOption<T, E> {
     #[inline]
     pub fn as_mut(&mut self) -> ErrorOption<&mut T, &mut E> {
         match self {
-            Value(ref mut value) => ErrorOption::Value(value),
-            Empty => ErrorOption::Empty,
-            Error(ref mut error) => ErrorOption::Error(error)
+            Value(ref mut value) => Value(value),
+            Empty => Empty,
+            Error(ref mut error) => Error(error)
         }
     }
 
@@ -616,9 +616,9 @@ impl<T, E> ErrorOption<T, E> {
         F: FnOnce(T) -> M
     {
         match self {
-            Value(value) => ErrorOption::Value(f(value)),
-            Empty => ErrorOption::Empty,
-            Error(error) => ErrorOption::Error(error)
+            Value(value) => Value(f(value)),
+            Empty => Empty,
+            Error(error) => Error(error)
         }
     }
 
@@ -665,9 +665,9 @@ impl<T, E> ErrorOption<T, E> {
         F: FnOnce(E) -> O
     {
         match self {
-            Value(value) => ErrorOption::Value(value),
-            Empty => ErrorOption::Empty,
-            Error(error) => ErrorOption::Error(f(error))
+            Value(value) => Value(value),
+            Empty => Empty,
+            Error(error) => Error(f(error))
         }
     }
 
@@ -701,9 +701,9 @@ impl<T, E> ErrorOption<T, E> {
         T: Deref
     {
         match self {
-            Value(ref value) => ErrorOption::Value(value.deref()),
-            Empty => ErrorOption::Empty,
-            Error(ref error) => ErrorOption::Error(error)
+            Value(ref value) => Value(value.deref()),
+            Empty => Empty,
+            Error(ref error) => Error(error)
         }
     }
 
@@ -713,9 +713,9 @@ impl<T, E> ErrorOption<T, E> {
         T: DerefMut
     {
         match self {
-            Value(ref mut value) => ErrorOption::Value(value.deref_mut()),
-            Empty => ErrorOption::Empty,
-            Error(ref mut error) => ErrorOption::Error(error)
+            Value(ref mut value) => Value(value.deref_mut()),
+            Empty => Empty,
+            Error(ref mut error) => Error(error)
         }
     }
 
@@ -735,8 +735,8 @@ impl<T, E> ErrorOption<T, E> {
         match self {
             #[allow(unused_variables)]
             Value(value) => optb,
-            Empty => ErrorOption::Empty,
-            Error(error) => ErrorOption::Error(error)
+            Empty => Empty,
+            Error(error) => Error(error)
         }
     }
 
@@ -747,8 +747,8 @@ impl<T, E> ErrorOption<T, E> {
     {
         match self {
             Value(value) => f(value),
-            Empty => ErrorOption::Empty,
-            Error(error) => ErrorOption::Error(error)
+            Empty => Empty,
+            Error(error) => Error(error)
         }
     }
 
@@ -905,16 +905,16 @@ impl<T, E> ErrorOption<T, E> {
     #[inline]
     pub fn zip<U>(self, other: ErrorOption<U, E>) -> ErrorOption<(T, U), E> {
         match (self, other) {
-            (Value(a), ErrorOption::Value(b)) => ErrorOption::Value((a, b)),
+            (Value(a), Value(b)) => Value((a, b)),
             // Should this drop the error or propagate it? Should this return any error if one is present if so which?
-            _ => ErrorOption::Empty
+            _ => Empty
         }
     }
 
     #[inline]
     pub fn zip_to_option<U>(self, other: ErrorOption<U, E>) -> Option<(T, U)> {
         match (self, other) {
-            (Value(a), ErrorOption::Value(b)) => Some((a, b)),
+            (Value(a), Value(b)) => Some((a, b)),
             _ => None
         }
     }
@@ -933,9 +933,9 @@ impl<T, E> ErrorOption<T, E> {
         F: FnOnce(T, U) -> R
     {
         match (self, other) {
-            (Value(a), ErrorOption::Value(b)) => ErrorOption::Value(f(a, b)),
+            (Value(a), Value(b)) => Value(f(a, b)),
             // look at zip
-            _ => ErrorOption::Empty
+            _ => Empty
         }
     }
 
@@ -945,7 +945,7 @@ impl<T, E> ErrorOption<T, E> {
         F: FnOnce(T, U) -> R
     {
         match (self, other) {
-            (Value(a), ErrorOption::Value(b)) => Some(f(a, b)),
+            (Value(a), Value(b)) => Some(f(a, b)),
             _ => None
         }
     }
@@ -974,8 +974,8 @@ impl<T, U ,E> ErrorOption<(T, U), E> {
     #[inline]
     pub fn unzip(self) -> (ErrorOption<T, E>, ErrorOption<U, E>) {
         match self {
-            Value((a, b)) => (ErrorOption::Value(a), ErrorOption::Value(b)),
-            _ => (ErrorOption::Empty, ErrorOption::Empty),
+            Value((a, b)) => (Value(a), Value(b)),
+            _ => (Empty, Empty),
         }
     }
 }
