@@ -59,7 +59,26 @@ impl<T, U> DoubleOption<T, U>{
         }
     }
 
+    /////////////////////////////////////////////////////////////////////////
+    // Adapter for working with references
+    /////////////////////////////////////////////////////////////////////////
+    #[inline]
+    pub fn as_ref(&self) -> DoubleOption<&T, &U> {
+        match self {
+            First(ref first) => First(&first),
+            Second(ref sec) => Second(&sec),
+            Empty => Empty
+        }
+    }
 
+    #[inline]
+    pub fn as_mut(&mut self) -> DoubleOption<&mut T, &mut U> {
+        match self {
+            First(ref mut first) => First(first),
+            Second(ref mut sec) => Second(sec),
+            Empty => Empty
+        }
+    }
 }
 
 
