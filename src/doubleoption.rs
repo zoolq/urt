@@ -30,22 +30,22 @@ impl<T, U> DoubleOption<T, U>{
     }
 
     #[inline]
-    fn is_first_and<F>(&self, f: F) -> bool
+    pub fn is_first_and<F>(self, f: F) -> bool
     where
         F: FnOnce(T) -> bool
     {
-        match *self {
+        match self {
             First(first) => f(first),
             _ => false
         }
     }
 
     #[inline]
-    fn is_second_and<F>(&self, f: F) -> bool
+    pub fn is_second_and<F>(self, f: F) -> bool
     where
         F: FnOnce(U) -> bool
     {
-        match *self {
+        match self {
             Second(sec) => f(sec),
             _ => false
         }
@@ -85,16 +85,16 @@ impl<T, U> DoubleOption<T, U>{
 impl<T: Clone, U: Clone> Clone for DoubleOption<T, U> {
     fn clone(&self) -> Self {
         match self {
-            Self::Fist(first) => Self::Fist(first.clone()),
-            Self::Second(second) => Self::Second(second.clone()),
-            Self::Empty => Self::Empty
+            First(first) => First(first.clone()),
+            Second(second) => Second(second.clone()),
+            Empty => Empty
         }
     }
 
     fn clone_from(&mut self, source: &Self) {
         match (self, source) {
-            (Self::Fist(destination), Self::Fist(source)) => destination.clone_from(source),
-            (Self::Second(destination), Self::Second(source)) => destination.clone_from(source),
+            (First(destination), First(source)) => destination.clone_from(source),
+            (Second(destination), Second(source)) => destination.clone_from(source),
             (destination, source) => *destination = source.clone()
         }
     }
