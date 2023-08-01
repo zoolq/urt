@@ -30,12 +30,36 @@ impl<T, U> DoubleOption<T, U>{
     }
 
     #[inline]
+    fn is_first_and<F>(&self, f: F) -> bool
+    where
+        F: FnOnce(T) -> bool
+    {
+        match *self {
+            First(first) => f(first),
+            _ => false
+        }
+    }
+
+    #[inline]
+    fn is_second_and<F>(&self, f: F) -> bool
+    where
+        F: FnOnce(U) -> bool
+    {
+        match *self {
+            Second(sec) => f(sec),
+            _ => false
+        }
+    }
+
+    #[inline]
     pub fn is_empty(&self) -> bool {
         match *self {
             Empty => true,
             _ => false
         }
     }
+
+
 }
 
 
