@@ -1,11 +1,43 @@
+use self::DoubleOption::{First, Second, Empty};
+
 /// Unopinionated extention of Option by another [`Some`] value.
 #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 #[derive(Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Debug)]
 pub enum DoubleOption<T, U> {
-    Fist(T),
+    First(T),
     Second(U),
     Empty
 }
+
+impl<T, U> DoubleOption<T, U>{
+    /////////////////////////////////////////////////////////////////////////
+    // Querying the contained values
+    /////////////////////////////////////////////////////////////////////////
+    #[inline]
+    pub fn is_fist(&self) -> bool {
+        match *self {
+            First(_) => true,
+            _ => false
+        }
+    }
+
+    #[inline]
+    pub fn is_second(&self) -> bool {
+        match *self {
+            Second(_) => true,
+            _ => false
+        }
+    }
+
+    #[inline]
+    pub fn is_empty(&self) -> bool {
+        match *self {
+            Empty => true,
+            _ => false
+        }
+    }
+}
+
 
 impl<T: Clone, U: Clone> Clone for DoubleOption<T, U> {
     fn clone(&self) -> Self {
